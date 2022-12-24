@@ -34,10 +34,11 @@ with row0_1:
     st.subheader("멋쟁이사자처럼 AIS7 파이널 프로젝트")
 
 with row0_2:
+    st.write("")
     st.subheader(
         "해파리팀"
     )
-    st.write('''이지혜, 최지영, 권소희, 문종현, 구자현, 김의준''')
+    st.write("이지혜, 최지영, 권소희, 문종현, 구자현, 김의준")
 
 st.write('---')
 
