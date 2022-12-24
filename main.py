@@ -29,13 +29,15 @@ row0_spacer1, row0_1, row0_spacer2, row0_2, row0_spacer3 = st.columns(
     (0.01, 2, 0.05, 1, 0.01)
 )
 
-row0_1.title("Korean 노래 가사 n행시")
+with row0_1:
+    st.title("Korean 노래 가사 n행시")
+    st.write("Likelion AIS7 Final Project")
 
 with row0_2:
-    row0_2.subheader(
-    "Likelion AIS7 Final Project"
+    st.subheader(
+        "해파리팀"
     )
-    st.write('''해파리팀 : 이지혜, 최지영, 권소희, 문종현, 구자현, 김의준''')
+    st.write('''이지혜, 최지영, 권소희, 문종현, 구자현, 김의준''')
 
 
 # Explanation
@@ -81,7 +83,7 @@ with row2_2:
     )
     
     if word_input:
-        st.write("n행시 단어: ", word_input)
+        st.write("n행시 단어 :  ", word_input)
 
 
 
