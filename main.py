@@ -30,8 +30,8 @@ row0_spacer1, row0_1, row0_spacer2, row0_2, row0_spacer3 = st.columns(
 )
 
 with row0_1:
-    st.title("Korean 노래 가사 n행시")
-    st.write("Likelion AIS7 Final Project")
+    st.title("한글 노래 가사 n행시")
+    st.subheader("멋쟁이사자처럼 AIS7 파이널 프로젝트")
 
 with row0_2:
     st.subheader(
@@ -39,6 +39,7 @@ with row0_2:
     )
     st.write('''이지혜, 최지영, 권소희, 문종현, 구자현, 김의준''')
 
+st.write('---')
 
 # Explanation
 row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 3, 0.01))
