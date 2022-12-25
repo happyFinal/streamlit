@@ -80,9 +80,6 @@ with row2_1:
 if "generate" not in st.session_state:
     st.session_state.generate = False
 
-# 정규표현식 배워야겠어요 ㅋㅋㅋ
-# pattern = re.compile('[^가-힣]')
-
 with row2_2:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 Enter를 눌러주세요. 👇",
@@ -94,10 +91,6 @@ with row2_2:
 
     if st.button('n행시 제작하기'):
         st.write("제작중...")
-        # if word_input == pattern:
-        #     st.write("한글 단어를 적고 Enter를 눌러주세요.")
-        # else:
-        #     generate = True
 
 
 
