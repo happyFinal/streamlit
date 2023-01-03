@@ -4,7 +4,7 @@ streamlit
 # plotly
 # seaborn
 # matplotlib
-# requests
+requests
 streamlit_lottie
 # streamlit_folium
 # koreanize_matplotlib
