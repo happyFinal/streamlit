@@ -3,7 +3,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("wumusill/final_20man")
 
-@st.cache
 def load_model():
     model = AutoModelForCausalLM.from_pretrained("wumusill/final_20man")
     return model
