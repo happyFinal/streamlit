@@ -3,16 +3,32 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained("wumusill/final_20man")
 
-model = AutoModelForCausalLM.from_pretrained("wumusill/final_20man")
+@st.cache
+def load_model():
+    model = AutoModelForCausalLM.from_pretrained("wumusill/final_20man")
+    return model
 
+model = load_model()
 
 def mind(input_letter):
+    # 두음 법칙 사전
+    dooeum = {"라":"나", "락":"낙", "란":"난", "랄":"날", "람":"남", "랍":"납", "랑":"낭", 
+          "래":"내", "랭":"냉", "냑":"약", "략":"약", "냥":"양", "량":"양", "녀":"여", 
+          "려":"여", "녁":"역", "력":"역", "년":"연", "련":"연", "녈":"열", "렬":"열", 
+          "념":"염", "렴":"염", "렵":"엽", "녕":"영", "령":"영", "녜":"예", "례":"예", 
+          "로":"노", "록":"녹", "론":"논", "롱":"농", "뢰":"뇌", "뇨":"요", "료":"요", 
+          "룡":"용", "루":"누", "뉴":"유", "류":"유", "뉵":"육", "륙":"육", "륜":"윤", 
+          "률":"율", "륭":"융", "륵":"늑", "름":"늠", "릉":"능", "니":"이", "리":"이", 
+          "린":'인', '림':'임', '립':'입'}
     # 결과물을 담을 list
     res_l = []
 
     # 한 글자씩 인덱스와 함께 가져옴
     for idx, val in enumerate(input_letter):
- 
+        # 두음 법칙 적용
+        if val in dooeum.keys():
+            val = dooeum[val]
+
         # 만약 idx 가 0 이라면 == 첫 글자
         if idx == 0:
             # 첫 글자 인코딩
@@ -21,7 +37,7 @@ def mind(input_letter):
             
             # 첫 글자 인코딩 값으로 문장 생성
             output_sequence = model.generate(
-                input_ids,
+                input_ids, 
                 do_sample=True, max_length=42)
         
         # 첫 글자가 아니라면
