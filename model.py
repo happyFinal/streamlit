@@ -78,4 +78,6 @@ def mind(input_letter):
     return dictionary
 
 
-print(mind("아이스크림"))
+result = mind('임종우')
+for r in result:
+    print(f'{r} : {result[r]}')

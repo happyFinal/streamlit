@@ -169,7 +169,7 @@ with row2_2:
     if st.button('n행시 제작하기'):
         result = mind(word_input)
         for r in result:
-            st.write(r)
+            st.write(f'{r} : {result[r]}')
 
 
 
