@@ -1,16 +1,17 @@
 import requests
 import streamlit as st
 from streamlit_lottie import st_lottie
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
 
 st.set_page_config(
     page_title="노래 가사 n행시",
     page_icon="💌",
+    layout="wide"
 )
 
 ### Model
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
-
 tokenizer = AutoTokenizer.from_pretrained("wumusill/final_20man")
 
 @st.cache
@@ -30,7 +31,7 @@ class poem(object):
     def __repr__(self):
         return "'"+self.letter+"'"
 
-@st.cache
+@st.cache(show_spinner=False)
 def mind(input_letter):
     # 두음 법칙 사전
     dooeum = {"라":"나", "락":"낙", "란":"난", "랄":"날", "람":"남", "랍":"납", "랑":"낭", 
@@ -163,24 +164,13 @@ with row1_1:
 st.write('---')
 
 # Model & Input
-row2_spacer1, row2_1, row2_spacer2, row2_2, row2_spacer3 = st.columns((0.01, 1.5, 0.05, 1.5, 0.01))
-
-# Genre Selector
-if "genre" not in st.session_state:
-    st.session_state.genre = "전체"
-
-with row2_1:
-    st.radio(
-        "장르를 선택해주세요. 👉",
-        key="genre",
-        options=["전체", "발라드", "록/메탈", "힙합", "트로트"],
-    )
+row2_spacer1, row2_1, row2_spacer2 = st.columns((0.01, 1.5, 0.05))
 
 # Word Input
 if "generate" not in st.session_state:
     st.session_state.generate = False
 
-with row2_2:
+with row2_1:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 Enter를 눌러주세요. 👇",
             placeholder='한글 단어'
