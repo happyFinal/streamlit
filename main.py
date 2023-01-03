@@ -84,9 +84,12 @@ def mind(input_letter):
 
         # print(res_l)
 
-    # 결과물 list에서 한 줄씩 출력
+    dictionary = {}
+
     for letter, res in zip(input_letter, res_l):
-        return(f"{letter} :", res)
+        dictionary[letter] = res
+
+    return dictionary
 
 ###
 
@@ -164,7 +167,9 @@ with row2_2:
         st.write("n행시 단어 :  ", word_input)
 
     if st.button('n행시 제작하기'):
-        st.write(mind(word_input))
+        result = mind(word_input)
+        for r in result:
+            st.write(r)
 
 
 

@@ -70,9 +70,12 @@ def mind(input_letter):
 
         # print(res_l)
 
-    # 결과물 list에서 한 줄씩 출력
+    dictionary = {}
+
     for letter, res in zip(input_letter, res_l):
-        print(f"{letter} :", res)
+        dictionary[letter] = res
+
+    return dictionary
 
 
-mind("아이스크림")
+print(mind("아이스크림"))
