@@ -20,6 +20,17 @@ def load_model():
 
 model = load_model()
 
+class poem(object):
+    def __init__(self,letter):
+        self.letter = letter
+
+    def __str__(self):
+        return self.letter
+
+    def __repr__(self):
+        return "'"+self.letter+"'"
+
+@st.cache
 def mind(input_letter):
     # 두음 법칙 사전
     dooeum = {"라":"나", "락":"낙", "란":"난", "랄":"날", "람":"남", "랍":"납", "랑":"낭", 
@@ -96,12 +107,12 @@ def mind(input_letter):
 
         # print(res_l)
 
-    dictionary = {}
+    poem_dict = {}
 
     for letter, res in zip(input_letter, res_l):
-        dictionary[letter] = res
+        poem_dict[poem(letter)] = res
 
-    return dictionary
+    return poem_dict
 
 ###
 
