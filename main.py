@@ -179,7 +179,9 @@ with row2_2:
         st.write("n행시 단어 :  ", word_input)
 
     if st.button('n행시 제작하기'):
-        result = mind(word_input)
+        with st.spinner('잠시 기다려주세요...'):
+            result = mind(word_input)
+        st.success('완료됐습니다!')
         for r in result:
             st.write(f'{r} : {result[r]}')
 
