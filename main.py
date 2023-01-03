@@ -1,6 +1,11 @@
 import streamlit as st
 from streamlit_lottie import st_lottie
 
+st.set_page_config(
+    page_title="노래 가사 n행시",
+    page_icon="💌",
+)
+
 ### Model
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -84,11 +89,6 @@ def mind(input_letter):
 
 ###
 
-
-st.set_page_config(
-    page_title="노래 가사 n행시",
-    page_icon="💌",
-)
 
 @st.cache
 def load_lottieurl(url: str):
