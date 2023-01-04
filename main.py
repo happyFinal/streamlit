@@ -120,7 +120,8 @@ def n_line_poem(input_letter):
     poem_dict = {}
 
     for letter, res in zip(input_letter, res_l):
-        poem_dict[poem(letter)] = res
+        decode_res = tokenizer.decode(res, clean_up_tokenization_spaces=True)
+        poem_dict[poem(letter)] = decode_res
 
     return poem_dict
 
