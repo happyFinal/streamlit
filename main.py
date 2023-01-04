@@ -61,7 +61,7 @@ def n_line_poem(input_letter):
             # 첫 글자 인코딩 값으로 문장 생성
             output_sequence = model.generate(
                 input_ids=input_ids, 
-                do_sample=True, max_length=42,
+                do_sample=True, max_length=42, no_repeat_ngram_size=2,
                 min_length=5, temperature=0.9, repetition_penalty=1.5)
         
         # 첫 글자가 아니라면
@@ -78,7 +78,7 @@ def n_line_poem(input_letter):
             # 인코딩 값으로 문장 생성
             output_sequence = model.generate(
                 input_ids=input_ids, 
-                do_sample=True, max_length=42,
+                do_sample=True, max_length=42, no_repeat_ngram_size=2,
                 min_length=len_sequence, temperature=0.9, repetition_penalty=1.5)
 
         # 생성된 문장 리스트로 변환 (인코딩 되어있고, 생성된 문장 뒤로 padding 이 있는 상태)
