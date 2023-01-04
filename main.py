@@ -53,7 +53,8 @@ def n_line_poem(input_letter):
         if val in dooeum.keys():
             val = dooeum[val]
         
-        while True:
+        times = 0
+        while times < 3:
             # 만약 idx 가 0 이라면 == 첫 글자
             if idx == 0:
                 # 첫 글자 인코딩
@@ -112,6 +113,7 @@ def n_line_poem(input_letter):
             if len(decoded_sequence) > 1:
                 break
             else:
+                times += 1
                 continue
                 
         # 결과물 리스트에 담기
