@@ -24,8 +24,14 @@ def load_model():
 
 model = load_model()
 
-word = pd.read_csv("ballad_word.csv", encoding="cp949")
-# st.dataframe(word)
+@st.cache(show_spinner=False)
+def get_word():
+    word = pd.read_csv("ballad_word.csv", encoding="cp949")
+    return word
+
+
+word = get_word()
+
 
 one = word[word["0"].str.startswith("한")].sample(1).values[0][0]
 # st.header(type(one))
@@ -66,13 +72,14 @@ def beta_poem(input_letter):
 
         # 발라드에 있는 단어 적용
         try:
-            word = words[words.str.startswith(val)].sample(1).values[0]
+            one = word[word["0"].str.startswith(val)].sample(1).values[0][0]
+            # st.text(one)
         except:
-            word = val
-        
+            one = val
+
         # 좀더 매끄러운 삼행시를 위해 이전 문장이랑 현재 음절 연결
         # 이후 generate 된 문장에서 이전 문장에 대한 데이터 제거
-        link_with_pre_sentence = (" ".join(res_l)+ " " + word + " " if idx != 0 else word).strip()
+        link_with_pre_sentence = (" ".join(res_l)+ " " + one + " " if idx != 0 else one).strip()
         # print(link_with_pre_sentence)
 
         # 연결된 문장을 인코딩
@@ -98,7 +105,7 @@ def beta_poem(input_letter):
             check_index = check_index if check_index-len_sequence > 3 else len_sequence + 8
             generated_sequence = generated_sequence[:check_index]
 
-        word_encode = tokenizer.encode(word, add_special_tokens=False, return_tensors="pt").tolist()[0][0]
+        word_encode = tokenizer.encode(one, add_special_tokens=False, return_tensors="pt").tolist()[0][0]
         split_index = len(generated_sequence) - 1 - generated_sequence[::-1].index(word_encode)
         
         # 첫 글자가 아니라면, generate 된 음절만 결과물 list에 들어갈 수 있게 앞 문장에 대한 인코딩 값 제거
