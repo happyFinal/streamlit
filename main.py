@@ -12,11 +12,11 @@ st.set_page_config(
 )
 
 ### Model
-tokenizer = AutoTokenizer.from_pretrained("wumusill/final_20man")
+tokenizer = AutoTokenizer.from_pretrained("wumusill/final_project_kogpt2")
 
 @st.cache(show_spinner=False)
 def load_model():
-    model = AutoModelForCausalLM.from_pretrained("wumusill/final_20man")
+    model = AutoModelForCausalLM.from_pretrained("wumusill/final_project_kogpt2")
     return model
 
 model = load_model()
@@ -148,8 +148,8 @@ row0_spacer1, row0_1, row0_spacer2, row0_2, row0_spacer3 = st.columns(
 )
 
 with row0_1:
-    st.title("한글 노래 가사 n행시")
-    st.subheader("멋쟁이사자처럼 AIS7 파이널 프로젝트")
+    st.title("한글 노래 가사 n행시✍")
+    st.subheader("🦁멋쟁이사자처럼 AIS7 파이널 프로젝트")
 
 with row0_2:
     st.write("")
@@ -165,23 +165,20 @@ st.write('---')
 row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 3, 0.01))
 
 with row1_1:
-    st.markdown(
-        "**'MZ세대'에게**"
-    )
-    st.markdown(
-        "음악은 세대를 드러내는 지표이자 자신의 감정 및 공동체를 드러내는 수단이다."
-    )
+    st.markdown("### 가이드라인")
+    st.markdown("1. 하단에 있는 텍스트바에 단어를 넣어주세요")
+    st.markdown("2. 'n행시 제작하기' 버튼을 클릭해주세요")
 
 st.write('---')
 
 # Model & Input
-row2_spacer1, row2_1, row2_spacer2 = st.columns((0.01, 1.5, 0.05))
+row2_spacer1, row2_1, row2_spacer2, row2_2, row2_spacer3, row2_3, row2_spacer4 = st.columns((0.01, 1.5, 0.05, 1.5, 0.05, 1.5, 0.05))
 
 # Word Input
 if "generate" not in st.session_state:
     st.session_state.generate = False
 
-with row2_1:
+with row2_2:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 Enter를 눌러주세요. 👇",
             placeholder='한글 단어',
