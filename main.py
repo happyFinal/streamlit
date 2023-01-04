@@ -59,8 +59,9 @@ def mind(input_letter):
             
             # 첫 글자 인코딩 값으로 문장 생성
             output_sequence = model.generate(
-                input_ids, 
-                do_sample=True, max_length=42)
+                input_ids=input_ids.to(device), 
+                do_sample=True, max_length=42,
+                min_length=5, temperature=0.9, repetition_penalty=1.5)
         
         # 첫 글자가 아니라면
         else:
@@ -75,28 +76,30 @@ def mind(input_letter):
 
             # 인코딩 값으로 문장 생성
             output_sequence = model.generate(
-                input_ids,
-                do_sample=True, max_length=42)
+                input_ids=input_ids.to(device), 
+                do_sample=True, max_length=42,
+                min_length=len_sequence, temperature=0.9, repetition_penalty=1.5)
 
         # 생성된 문장 리스트로 변환 (인코딩 되어있고, 생성된 문장 뒤로 padding 이 있는 상태)
         generated_sequence = output_sequence.tolist()[0]
 
-        # padding index 앞까지 slicing 함으로써 padding 제거
-        generated_sequence = generated_sequence[:generated_sequence.index(tokenizer.pad_token_id)]
+        # padding index 앞까지 slicing 함으로써 padding 제거, padding이 없을 수도 있기 때문에 조건문 확인 후 제거
+        if tokenizer.pad_token_id in generated_sequence:
+            generated_sequence = generated_sequence[:generated_sequence.index(tokenizer.pad_token_id)]
         
         # 첫 글자가 아니라면, generate 된 음절만 결과물 list에 들어갈 수 있게 앞 문장에 대한 인코딩 값 제거
         # print(generated_sequence)
         if idx != 0:
-            # 이전 문장의 마지막 시퀀스 이후로 슬라이싱해서 앞 문장 제거
-            generated_sequence = generated_sequence[generated_sequence.index(last_sequence) + 1:]
+            # 이전 문장의 길이 이후로 슬라이싱해서 앞 문장 제거
+            generated_sequence = generated_sequence[len_sequence:]
 
-            # 다음 음절을 위해 마지막 시퀀스 갱신
-            last_sequence = generated_sequence[-1]        
+            # 다음 음절을 위해 길이 갱신
+            len_sequence += len(generated_sequence)        
         
         # 첫 글자라면
         else:
-            # 마지막 시퀀스 저장
-            last_sequence = generated_sequence[-1]        
+            # 시퀀스 길이 저장
+            len_sequence = len(generated_sequence)
         
         # print(last_sequence)
 
@@ -105,8 +108,6 @@ def mind(input_letter):
 
         # 결과물 리스트에 담기
         res_l.append(decoded_sequence)
-
-        # print(res_l)
 
     poem_dict = {}
 
