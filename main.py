@@ -64,7 +64,7 @@ def n_line_poem(input_letter):
 
                 # 첫 글자 인코딩 값으로 문장 생성
                 output_sequence = model.generate(
-                    input_ids=input_ids.to(device), 
+                    input_ids=input_ids, 
                     do_sample=True, max_length=42,
                     min_length=5, temperature=0.9, repetition_penalty=1.5,
                     no_repeat_ngram_size=2)[0]
@@ -84,7 +84,7 @@ def n_line_poem(input_letter):
 
                 # 인코딩 값으로 문장 생성
                 output_sequence = model.generate(
-                    input_ids=link_with_pre_sentence.to(device), 
+                    input_ids=link_with_pre_sentence, 
                     do_sample=True, max_length=42,
                     min_length=5, temperature=0.9, repetition_penalty=1.5,
                     no_repeat_ngram_size=2)[0]
