@@ -4,7 +4,7 @@ from streamlit_lottie import st_lottie
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-
+# Page Config
 st.set_page_config(
     page_title="노래 가사 n행시",
     page_icon="💌",
@@ -21,7 +21,7 @@ def load_model():
 
 model = load_model()
 
-# 딕셔너리 중복 키 출력 클래스
+# Class : Dict 중복 키 출력
 class poem(object):
     def __init__(self,letter):
         self.letter = letter
@@ -32,8 +32,9 @@ class poem(object):
     def __repr__(self):
         return "'"+self.letter+"'"
 
-@st.cache(show_spinner=False)
+
 def n_line_poem(input_letter):
+
     # 두음 법칙 사전
     dooeum = {"라":"나", "락":"낙", "란":"난", "랄":"날", "람":"남", "랍":"납", "랑":"낭", 
           "래":"내", "랭":"냉", "냑":"약", "략":"약", "냥":"양", "량":"양", "녀":"여", 
