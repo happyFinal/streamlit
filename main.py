@@ -3,6 +3,7 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
+import re
 
 # Page Config
 st.set_page_config(
@@ -164,7 +165,7 @@ row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 0.01, 0.01))
 
 with row1_1:
     st.markdown("### n행시 가이드라인")
-    st.markdown("1. 하단에 있는 텍스트바에 5자 이하 단어를 넣어주세요")
+    st.markdown("1. 하단에 있는 텍스트바에 5자 이하 한글 단어를 넣어주세요")
     st.markdown("2. 'n행시 제작하기' 버튼을 클릭해주세요")
 
 st.write('---')
@@ -175,18 +176,23 @@ row2_spacer1, row2_1, row2_spacer2= st.columns((0.01, 0.01, 0.01))
 # Word Input
 with row2_1:
     word_input = st.text_input(
-            "n행시에 사용할 단어를 적고 버튼을 눌러주세요.(최대 5자) 👇",
+            "n행시에 사용할 한글 단어를 적고 버튼을 눌러주세요.(최대 5자) 👇",
             placeholder='한글 단어를 입력해주세요',
             max_chars=5
     )
+    word_input = re.sub("[^가-힣]", "", word_input)
         
     if st.button('n행시 제작하기'):
-        st.write("n행시 단어 :  ", word_input)
-        with st.spinner('잠시 기다려주세요...'):
-            result = n_line_poem(word_input)
-        st.success('완료됐습니다!')
-        for r in result:
-            st.write(f'{r} : {result[r]}')
+        if word_input == "":
+            st.error("온전한 한글 단어를 사용해주세요!")
+
+        else:
+            st.write("n행시 단어 :  ", word_input)
+            with st.spinner('잠시 기다려주세요...'):
+                result = n_line_poem(word_input)
+            st.success('완료됐습니다!')
+            for r in result:
+                st.write(f'{r} : {result[r]}')
 
 
 
