@@ -174,9 +174,6 @@ st.write('---')
 row2_spacer1, row2_1, row2_spacer2= st.columns((0.01, 0.01, 0.01))
 
 # Word Input
-if "generate" not in st.session_state:
-    st.session_state.generate = False
-
 with row2_1:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 버튼을 눌러주세요.(최대 5자) 👇",
