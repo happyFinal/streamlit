@@ -14,13 +14,14 @@ st.set_page_config(
 ### Model
 tokenizer = AutoTokenizer.from_pretrained("wumusill/final_20man")
 
-@st.cache
+@st.cache(show_spinner=False)
 def load_model():
     model = AutoModelForCausalLM.from_pretrained("wumusill/final_20man")
     return model
 
 model = load_model()
 
+# 딕셔너리 중복 키 출력 클래스
 class poem(object):
     def __init__(self,letter):
         self.letter = letter
@@ -32,7 +33,7 @@ class poem(object):
         return "'"+self.letter+"'"
 
 @st.cache(show_spinner=False)
-def mind(input_letter):
+def n_line_poem(input_letter):
     # 두음 법칙 사전
     dooeum = {"라":"나", "락":"낙", "란":"난", "랄":"날", "람":"남", "랍":"납", "랑":"낭", 
           "래":"내", "랭":"냉", "냑":"약", "략":"약", "냥":"양", "량":"양", "녀":"여", 
@@ -117,8 +118,8 @@ def mind(input_letter):
 
 ###
 
-
-@st.cache
+# Image(.gif)
+@st.cache(show_spinner=False)
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:
@@ -173,7 +174,8 @@ if "generate" not in st.session_state:
 with row2_1:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 Enter를 눌러주세요. 👇",
-            placeholder='한글 단어'
+            placeholder='한글 단어',
+            max_chars=10
     )
     
     if word_input:
@@ -181,7 +183,7 @@ with row2_1:
 
     if st.button('n행시 제작하기'):
         with st.spinner('잠시 기다려주세요...'):
-            result = mind(word_input)
+            result = n_line_poem(word_input)
         st.success('완료됐습니다!')
         for r in result:
             st.write(f'{r} : {result[r]}')
