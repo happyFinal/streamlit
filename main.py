@@ -144,25 +144,24 @@ st_lottie(lottie_json, speed=1, height=200, key="initial")
 
 # Title
 row0_spacer1, row0_1, row0_spacer2, row0_2, row0_spacer3 = st.columns(
-    (0.01, 2, 0.05, 1, 0.01)
+    (0.01, 2, 0.05, 0.5, 0.01)
 )
 
 with row0_1:
-    st.title("한글 노래 가사 n행시✍")
-    st.subheader("🦁멋쟁이사자처럼 AIS7 파이널 프로젝트")
+    st.markdown("# 한글 노래 가사 n행시✍")
+    st.markdown("### 🦁멋쟁이사자처럼 AIS7🦁 - 파이널 프로젝트")
 
 with row0_2:
     st.write("")
-    st.subheader(
-        "해파리팀"
-    )
-    st.write("이지혜, 최지영, 권소희")
-    st.write("문종현, 구자현, 김의준")
+    st.write("")
+    st.write("")
+    st.subheader("1조 - 해파리")
+    st.write("이지혜, 최지영, 권소희, 문종현, 구자현, 김의준")
 
 st.write('---')
 
 # Explanation
-row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 3, 0.01))
+row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 0.01, 0.01))
 
 with row1_1:
     st.markdown("### n행시 가이드라인")
@@ -172,13 +171,13 @@ with row1_1:
 st.write('---')
 
 # Model & Input
-row2_spacer1, row2_1, row2_spacer2, row2_2, row2_spacer3, row2_3, row2_spacer4 = st.columns((0.01, 1.5, 0.05, 1.5, 0.05, 1.5, 0.05))
+row2_spacer1, row2_1, row2_spacer2= st.columns((0.01, 0.01, 0.01))
 
 # Word Input
 if "generate" not in st.session_state:
     st.session_state.generate = False
 
-with row2_2:
+with row2_1:
     word_input = st.text_input(
             "n행시에 사용할 단어를 적고 버튼을 눌러주세요. 👇",
             placeholder='한글 단어',
