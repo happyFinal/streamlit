@@ -165,8 +165,8 @@ st.write('---')
 row1_spacer1, row1_1, row1_spacer2 = st.columns((0.01, 3, 0.01))
 
 with row1_1:
-    st.markdown("### 가이드라인")
-    st.markdown("1. 하단에 있는 텍스트바에 단어를 넣어주세요")
+    st.markdown("### n행시 가이드라인")
+    st.markdown("1. 하단에 있는 텍스트바에 5자 이하 단어를 넣어주세요")
     st.markdown("2. 'n행시 제작하기' 버튼을 클릭해주세요")
 
 st.write('---')
@@ -180,15 +180,13 @@ if "generate" not in st.session_state:
 
 with row2_2:
     word_input = st.text_input(
-            "n행시에 사용할 단어를 적고 Enter를 눌러주세요. 👇",
+            "n행시에 사용할 단어를 적고 버튼을 눌러주세요. 👇",
             placeholder='한글 단어',
-            max_chars=10
+            max_chars=5
     )
-    
-    if word_input:
-        st.write("n행시 단어 :  ", word_input)
-
+        
     if st.button('n행시 제작하기'):
+        st.write("n행시 단어 :  ", word_input)
         with st.spinner('잠시 기다려주세요...'):
             result = n_line_poem(word_input)
         st.success('완료됐습니다!')
