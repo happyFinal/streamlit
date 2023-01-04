@@ -52,44 +52,54 @@ def n_line_poem(input_letter):
         # 두음 법칙 적용
         if val in dooeum.keys():
             val = dooeum[val]
-        
-        times = 0
-        while times < 3:
+
+
+        while True:
             # 만약 idx 가 0 이라면 == 첫 글자
             if idx == 0:
                 # 첫 글자 인코딩
                 input_ids = tokenizer.encode(
                 val, add_special_tokens=False, return_tensors="pt")
+                # print(f"{idx}번 인코딩 : {input_ids}\n") # 2차원 텐서
 
                 # 첫 글자 인코딩 값으로 문장 생성
                 output_sequence = model.generate(
-                    input_ids=input_ids, 
-                    do_sample=True, max_length=42, no_repeat_ngram_size=2,
-                    min_length=5, temperature=0.9, repetition_penalty=1.5)
+                    input_ids=input_ids.to(device), 
+                    do_sample=True, max_length=42,
+                    min_length=5, temperature=0.9, repetition_penalty=1.5,
+                    no_repeat_ngram_size=2)[0]
+                # print("첫 글자 인코딩 후 generate 결과:", output_sequence, "\n") # tensor
 
             # 첫 글자가 아니라면
             else:
-                # 좀더 매끄러운 삼행시를 위해 이전 문장이랑 현재 음절 연결
-                # 이후 generate 된 문장에서 이전 문장에 대한 데이터 제거
-                link_with_pre_sentence = " ".join(res_l) + " " + val  
-                # print(link_with_pre_sentence)
-
-                # 연결된 문장을 인코딩
+                # 한 음절
                 input_ids = tokenizer.encode(
-                link_with_pre_sentence, add_special_tokens=False, return_tensors="pt")
+                val, add_special_tokens=False, return_tensors="pt")
+                # print(f"{idx}번 째 글자 인코딩 : {input_ids} \n")
+
+                # 좀더 매끄러운 삼행시를 위해 이전 인코딩과 지금 인코딩 연결
+                link_with_pre_sentence = torch.cat((generated_sequence, input_ids[0]), 0)
+                link_with_pre_sentence = torch.reshape(link_with_pre_sentence, (1, len(link_with_pre_sentence)))
+                # print(f"이전 텐서와 연결된 텐서 {link_with_pre_sentence} \n")
 
                 # 인코딩 값으로 문장 생성
                 output_sequence = model.generate(
-                    input_ids=input_ids, 
-                    do_sample=True, max_length=42, no_repeat_ngram_size=2,
-                    min_length=len_sequence, temperature=0.9, repetition_penalty=1.5)
-
+                    input_ids=link_with_pre_sentence.to(device), 
+                    do_sample=True, max_length=42,
+                    min_length=5, temperature=0.9, repetition_penalty=1.5,
+                    no_repeat_ngram_size=2)[0]
+                # print(f"{idx}번 인코딩 후 generate : {output_sequence}")
+        
             # 생성된 문장 리스트로 변환 (인코딩 되어있고, 생성된 문장 뒤로 padding 이 있는 상태)
-            generated_sequence = output_sequence.tolist()[0]
+            generated_sequence = output_sequence.tolist()
+            # print(f"{idx}번 인코딩 리스트 : {generated_sequence} \n")
 
             # padding index 앞까지 slicing 함으로써 padding 제거, padding이 없을 수도 있기 때문에 조건문 확인 후 제거
             if tokenizer.pad_token_id in generated_sequence:
                 generated_sequence = generated_sequence[:generated_sequence.index(tokenizer.pad_token_id)]
+            
+            generated_sequence = torch.tensor(generated_sequence) 
+            # print(f"{idx}번 인코딩 리스트 패딩 제거 후 다시 텐서 : {generated_sequence} \n")
 
             # 첫 글자가 아니라면, generate 된 음절만 결과물 list에 들어갈 수 있게 앞 문장에 대한 인코딩 값 제거
             # print(generated_sequence)
@@ -97,27 +107,15 @@ def n_line_poem(input_letter):
                 # 이전 문장의 길이 이후로 슬라이싱해서 앞 문장 제거
                 generated_sequence = generated_sequence[len_sequence:]
 
-                # 다음 음절을 위해 길이 갱신
-                len_sequence += len(generated_sequence)        
+            len_sequence = len(generated_sequence)
+            # print("len_seq", len_sequence)
 
-            # 첫 글자라면
-            else:
-                # 시퀀스 길이 저장
-                len_sequence = len(generated_sequence)
-
-            # print(last_sequence)
-
-            # 결과물 디코딩
-            decoded_sequence = tokenizer.decode(generated_sequence, clean_up_tokenization_spaces=True)
-            
-            if len(decoded_sequence) > 1:
+            # 음절 그대로 뱉으면 다시 해와, 아니면 while문 탈출
+            if len_sequence > 1:
                 break
-            else:
-                times += 1
-                continue
-                
+
         # 결과물 리스트에 담기
-        res_l.append(decoded_sequence)
+        res_l.append(generated_sequence)
 
     poem_dict = {}
 
