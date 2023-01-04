@@ -11,4 +11,3 @@ streamlit_lottie
 # tensorflow
 torch
 transformers
-re
