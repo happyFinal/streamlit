@@ -265,6 +265,9 @@ with row1_1:
     st.markdown("### n행시 가이드라인")
     st.markdown("1. 하단에 있는 텍스트바에 5자 이하 단어를 넣어주세요")
     st.markdown("2. 'n행시 제작하기' 버튼을 클릭해주세요")
+    st.markdown("* n행시 타입 설정\n"
+                "  * Alpha ver. : 모델이 첫 음절부터 생성\n"
+                "  * Beta ver. : 첫 음절을 데이터셋에서 찾고, 다음 부분을 생성")
 
 st.write('---')
 
