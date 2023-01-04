@@ -59,7 +59,7 @@ def mind(input_letter):
             
             # 첫 글자 인코딩 값으로 문장 생성
             output_sequence = model.generate(
-                input_ids=input_ids.to(device), 
+                input_ids=input_ids, 
                 do_sample=True, max_length=42,
                 min_length=5, temperature=0.9, repetition_penalty=1.5)
         
@@ -76,7 +76,7 @@ def mind(input_letter):
 
             # 인코딩 값으로 문장 생성
             output_sequence = model.generate(
-                input_ids=input_ids.to(device), 
+                input_ids=input_ids, 
                 do_sample=True, max_length=42,
                 min_length=len_sequence, temperature=0.9, repetition_penalty=1.5)
 
